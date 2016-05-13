@@ -1,0 +1,48 @@
+
+Allocating common symbols
+Common symbol       size              file
+
+_COMMAND_SET        0x4               shell.o
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+*default*        0x0000000000000000 0xffffffffffffffff
+
+Linker script and memory map
+
+LOAD shell.o
+                0x0000000020000020                . = 0x20000020
+
+.text           0x0000000020000020      0x95f
+ *(.text)
+ .text          0x0000000020000020      0x95f shell.o
+                0x0000000020000020                shell_start
+
+.rodata         0x0000000020000980       0x90
+ *(.strings)
+ *(.rodata)
+ .rodata        0x0000000020000980       0x90 shell.o
+ *(.rodata.*)
+
+.eh_frame       0x0000000020000a10      0x2fc
+ .eh_frame      0x0000000020000a10      0x2fc shell.o
+
+.data           0x0000000020000d0c        0x0
+ *(.data)
+ .data          0x0000000020000d0c        0x0 shell.o
+
+.bss            0x0000000020000d0c        0x4
+ *(.bss)
+ .bss           0x0000000020000d0c        0x0 shell.o
+ COMMON         0x0000000020000d0c        0x4 shell.o
+                0x0000000020000d0c                _COMMAND_SET
+OUTPUT(bin/shell binary)
+
+.comment        0x0000000000000000       0x1e
+ .comment       0x0000000000000000       0x1e shell.o
+
+.note.GNU-stack
+                0x0000000000000000        0x0
+ .note.GNU-stack
+                0x0000000000000000        0x0 shell.o

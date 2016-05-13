@@ -1,0 +1,31 @@
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+*default*        0x0000000000000000 0xffffffffffffffff
+
+Linker script and memory map
+
+LOAD boot.o
+
+.text           0x0000000000000000      0x13f
+ *(.text)
+ .text          0x0000000000000000      0x13f boot.o
+
+.rodata
+ *(.strings)
+ *(.rodata)
+ *(.rodata.*)
+
+.data           0x000000000000013f       0x58
+ *(.data)
+ .data          0x000000000000013f       0x58 boot.o
+
+.bss            0x0000000000000197        0x0
+ *(.bss)
+ .bss           0x0000000000000197        0x0 boot.o
+                0x00000000000001fe                . = 0x1fe
+
+.sign           0x00000000000001fe        0x2
+                0x00000000000001fe        0x2 SHORT 0xaa55
+OUTPUT(boot.bin binary)

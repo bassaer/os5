@@ -1,0 +1,291 @@
+
+Allocating common symbols
+Common symbol       size              file
+
+fshell              0x10              fs.o
+_flag               0x1               debug.o
+keycode_queue       0x103             console_io.o
+task_instance_table
+                    0x1b0             sched.o
+fhead               0xc               fs.o
+cursor_pos          0x8               console_io.o
+fuptime             0x10              fs.o
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+*default*        0x0000000000000000 0xffffffffffffffff
+
+Linker script and memory map
+
+LOAD sys.o
+LOAD cpu.o
+LOAD intr.o
+LOAD excp.o
+LOAD memory.o
+LOAD sched.o
+LOAD fs.o
+LOAD task.o
+LOAD syscall.o
+LOAD lock.o
+LOAD timer.o
+LOAD console_io.o
+LOAD queue.o
+LOAD common.o
+LOAD debug.o
+LOAD init.o
+LOAD kern_task_init.o
+                0x0000000000007e00                . = 0x7e00
+
+.text           0x0000000000007e00     0x1ffc
+ *(.text)
+ .text          0x0000000000007e00      0x10f sys.o
+                0x0000000000007e4e                keyboard_handler
+                0x0000000000007e56                timer_handler
+                0x0000000000007e5e                exception_handler
+                0x0000000000007e6c                divide_error_handler
+                0x0000000000007e72                debug_handler
+                0x0000000000007e78                nmi_handler
+                0x0000000000007e7e                breakpoint_handler
+                0x0000000000007e84                overflow_handler
+                0x0000000000007e8a                bound_range_exceeded_handler
+                0x0000000000007e90                invalid_opcode_handler
+                0x0000000000007e96                device_not_available_handler
+                0x0000000000007e9c                double_fault_handler
+                0x0000000000007ea2                coprocessor_segment_overrun_handler
+                0x0000000000007ea8                invalid_tss_handler
+                0x0000000000007eae                segment_not_present_handler
+                0x0000000000007eb4                stack_fault_handler
+                0x0000000000007eba                general_protection_handler
+                0x0000000000007ec0                page_fault_handler
+                0x0000000000007eda                x87_fpu_floating_point_error_handler
+                0x0000000000007ee0                alignment_check_handler
+                0x0000000000007ee6                machine_check_handler
+                0x0000000000007eec                simd_floating_point_handler
+                0x0000000000007ef2                virtualization_handler
+                0x0000000000007ef8                syscall_handler
+ .text          0x0000000000007f0f       0xd8 cpu.o
+                0x0000000000007f0f                init_gdt
+ .text          0x0000000000007fe7      0x176 intr.o
+                0x0000000000007fe7                intr_init
+                0x0000000000008082                intr_set_mask_master
+                0x000000000000809e                intr_get_mask_master
+                0x00000000000080b9                intr_set_mask_slave
+                0x00000000000080d5                intr_get_mask_slave
+                0x00000000000080f0                intr_set_handler
+ .text          0x000000000000815d       0x90 excp.o
+                0x000000000000815d                do_exception
+                0x0000000000008175                do_page_fault
+ .text          0x00000000000081ed      0x2cd memory.o
+                0x00000000000081ed                mem_init
+                0x0000000000008431                mem_page_start
+                0x000000000000844c                mem_alloc
+                0x0000000000008499                mem_free
+ .text          0x00000000000084ba      0x73b sched.o
+                0x00000000000084ba                sched_get_current
+                0x00000000000084d2                sched_runq_enq
+                0x000000000000855d                sched_runq_del
+                0x00000000000085f4                schedule
+                0x000000000000873b                sched_wakeupq_enq
+                0x00000000000087c6                sched_wakeupq_del
+                0x000000000000885d                sched_update_wakeupq
+                0x0000000000008913                wakeup_after_msec
+                0x000000000000899e                sched_wakeupevq_enq
+                0x0000000000008a29                sched_wakeupevq_del
+                0x0000000000008ac0                sched_update_wakeupevq
+                0x0000000000008b63                wakeup_after_event
+ .text          0x0000000000008bf5       0xd1 fs.o
+                0x0000000000008bf5                fs_init
+                0x0000000000008c76                fs_open
+                0x0000000000008cbc                fs_close
+ .text          0x0000000000008cc6      0x2c7 task.o
+                0x0000000000008cc6                task_init
+ .text          0x0000000000008f8d      0x127 syscall.o
+                0x0000000000008f8d                do_syscall
+ .text          0x00000000000090b4       0x3c lock.o
+                0x00000000000090b4                kern_lock
+                0x00000000000090e0                kern_unlock
+ .text          0x00000000000090f0       0x63 timer.o
+                0x00000000000090f0                do_ir_timer
+                0x0000000000009117                timer_init
+                0x0000000000009149                timer_get_global_counter
+ .text          0x0000000000009153      0x75d console_io.o
+                0x0000000000009287                do_ir_keyboard
+                0x00000000000092f7                con_init
+                0x0000000000009318                update_cursor
+                0x000000000000942c                put_char_pos
+                0x0000000000009476                put_char
+                0x0000000000009502                put_str
+                0x000000000000952f                put_str_pos
+                0x00000000000095b5                dump_hex
+                0x000000000000964c                dump_hex_pos
+                0x00000000000096d8                get_keydata_noir
+                0x0000000000009711                get_keydata
+                0x000000000000977c                get_keycode
+                0x000000000000978c                get_keycode_pressed
+                0x00000000000097ab                get_keycode_released
+                0x00000000000097ca                get_char
+                0x00000000000097e1                get_line
+ .text          0x00000000000098b0      0x197 queue.o
+                0x00000000000098b0                queue_init
+                0x00000000000098c6                queue_enq
+                0x00000000000098f3                queue_del
+                0x0000000000009913                queue_dump
+ .text          0x0000000000009a47       0xb8 common.o
+                0x0000000000009a47                str_compare
+                0x0000000000009acc                copy_mem
+ .text          0x0000000000009aff       0x29 debug.o
+                0x0000000000009aff                debug_init
+                0x0000000000009b0b                test_excp_de
+                0x0000000000009b18                test_excp_pf
+ .text          0x0000000000009b28      0x25a init.o
+                0x0000000000009b28                kern_init
+ .text          0x0000000000009d82       0x7a kern_task_init.o
+                0x0000000000009d8e                kern_task_init
+
+.rodata         0x0000000000009e00      0x113
+ *(.strings)
+ *(.rodata)
+ .rodata        0x0000000000009e00       0x3a excp.o
+ *fill*         0x0000000000009e3a        0x2 
+ .rodata        0x0000000000009e3c       0x2c syscall.o
+ *fill*         0x0000000000009e68       0x18 
+ .rodata        0x0000000000009e80       0x80 console_io.o
+                0x0000000000009e80                keymap
+ .rodata        0x0000000000009f00       0x13 queue.o
+ *(.rodata.*)
+
+.eh_frame       0x0000000000009f14      0x998
+ .eh_frame      0x0000000000009f14       0x38 cpu.o
+ .eh_frame      0x0000000000009f4c       0xd8 intr.o
+ .eh_frame      0x000000000000a024       0x50 excp.o
+ .eh_frame      0x000000000000a074       0x98 memory.o
+ .eh_frame      0x000000000000a10c      0x198 sched.o
+ .eh_frame      0x000000000000a2a4       0x78 fs.o
+ .eh_frame      0x000000000000a31c       0x38 task.o
+ .eh_frame      0x000000000000a354       0x38 syscall.o
+ .eh_frame      0x000000000000a38c       0x58 lock.o
+ .eh_frame      0x000000000000a3e4       0x78 timer.o
+ .eh_frame      0x000000000000a45c      0x25c console_io.o
+ .eh_frame      0x000000000000a6b8       0x98 queue.o
+ .eh_frame      0x000000000000a750       0x58 common.o
+ .eh_frame      0x000000000000a7a8       0x78 debug.o
+ .eh_frame      0x000000000000a820       0x34 init.o
+ .eh_frame      0x000000000000a854       0x58 kern_task_init.o
+
+.data           0x000000000000a8b0      0x862
+ *(.data)
+ .data          0x000000000000a8b0      0x854 sys.o
+                0x000000000000a8c0                idt
+                0x000000000000b0c0                gdt
+ .data          0x000000000000b104        0x0 cpu.o
+ .data          0x000000000000b104        0x0 intr.o
+ .data          0x000000000000b104        0x0 excp.o
+ .data          0x000000000000b104        0x0 memory.o
+ .data          0x000000000000b104        0x0 sched.o
+ .data          0x000000000000b104        0x0 fs.o
+ .data          0x000000000000b104        0xe task.o
+                0x000000000000b104                context_switch_template
+ .data          0x000000000000b112        0x0 syscall.o
+ .data          0x000000000000b112        0x0 lock.o
+ .data          0x000000000000b112        0x0 timer.o
+ .data          0x000000000000b112        0x0 console_io.o
+ .data          0x000000000000b112        0x0 queue.o
+ .data          0x000000000000b112        0x0 common.o
+ .data          0x000000000000b112        0x0 debug.o
+ .data          0x000000000000b112        0x0 init.o
+ .data          0x000000000000b112        0x0 kern_task_init.o
+
+.bss            0x000000000000b140      0x4cd
+ *(.bss)
+ .bss           0x000000000000b140        0x0 sys.o
+ .bss           0x000000000000b140        0x0 cpu.o
+ .bss           0x000000000000b140        0x0 intr.o
+ .bss           0x000000000000b140        0x0 excp.o
+ .bss           0x000000000000b140        0xb memory.o
+ *fill*         0x000000000000b14b       0x35 
+ .bss           0x000000000000b180       0xd0 sched.o
+ .bss           0x000000000000b250        0x0 fs.o
+ .bss           0x000000000000b250        0x0 task.o
+ .bss           0x000000000000b250        0x0 syscall.o
+ .bss           0x000000000000b250        0x0 lock.o
+ .bss           0x000000000000b250        0x4 timer.o
+                0x000000000000b250                global_counter
+ .bss           0x000000000000b254        0x1 console_io.o
+ .bss           0x000000000000b255        0x0 queue.o
+ .bss           0x000000000000b255        0x0 common.o
+ .bss           0x000000000000b255        0x0 debug.o
+ .bss           0x000000000000b255        0x0 init.o
+ *fill*         0x000000000000b255       0x2b 
+ .bss           0x000000000000b280       0x68 kern_task_init.o
+ *fill*         0x000000000000b2e8       0x18 
+ COMMON         0x000000000000b300      0x1b0 sched.o
+                0x000000000000b300                task_instance_table
+ COMMON         0x000000000000b4b0       0x2c fs.o
+                0x000000000000b4b0                fshell
+                0x000000000000b4c0                fhead
+                0x000000000000b4cc                fuptime
+ *fill*         0x000000000000b4dc       0x24 
+ COMMON         0x000000000000b500      0x10c console_io.o
+                0x000000000000b500                keycode_queue
+                0x000000000000b604                cursor_pos
+ COMMON         0x000000000000b60c        0x1 debug.o
+                0x000000000000b60c                _flag
+                0x0000000000010ffe                . = 0x10ffe
+
+.sign           0x0000000000010ffe        0x2
+                0x0000000000010ffe        0x2 SHORT 0xbeef
+OUTPUT(kernel.bin binary)
+
+.comment        0x0000000000000000      0x1e0
+ .comment       0x0000000000000000       0x1e cpu.o
+ .comment       0x000000000000001e       0x1e intr.o
+ .comment       0x000000000000003c       0x1e excp.o
+ .comment       0x000000000000005a       0x1e memory.o
+ .comment       0x0000000000000078       0x1e sched.o
+ .comment       0x0000000000000096       0x1e fs.o
+ .comment       0x00000000000000b4       0x1e task.o
+ .comment       0x00000000000000d2       0x1e syscall.o
+ .comment       0x00000000000000f0       0x1e lock.o
+ .comment       0x000000000000010e       0x1e timer.o
+ .comment       0x000000000000012c       0x1e console_io.o
+ .comment       0x000000000000014a       0x1e queue.o
+ .comment       0x0000000000000168       0x1e common.o
+ .comment       0x0000000000000186       0x1e debug.o
+ .comment       0x00000000000001a4       0x1e init.o
+ .comment       0x00000000000001c2       0x1e kern_task_init.o
+
+.note.GNU-stack
+                0x0000000000000000        0x0
+ .note.GNU-stack
+                0x0000000000000000        0x0 cpu.o
+ .note.GNU-stack
+                0x0000000000000000        0x0 intr.o
+ .note.GNU-stack
+                0x0000000000000000        0x0 excp.o
+ .note.GNU-stack
+                0x0000000000000000        0x0 memory.o
+ .note.GNU-stack
+                0x0000000000000000        0x0 sched.o
+ .note.GNU-stack
+                0x0000000000000000        0x0 fs.o
+ .note.GNU-stack
+                0x0000000000000000        0x0 task.o
+ .note.GNU-stack
+                0x0000000000000000        0x0 syscall.o
+ .note.GNU-stack
+                0x0000000000000000        0x0 lock.o
+ .note.GNU-stack
+                0x0000000000000000        0x0 timer.o
+ .note.GNU-stack
+                0x0000000000000000        0x0 console_io.o
+ .note.GNU-stack
+                0x0000000000000000        0x0 queue.o
+ .note.GNU-stack
+                0x0000000000000000        0x0 common.o
+ .note.GNU-stack
+                0x0000000000000000        0x0 debug.o
+ .note.GNU-stack
+                0x0000000000000000        0x0 init.o
+ .note.GNU-stack
+                0x0000000000000000        0x0 kern_task_init.o

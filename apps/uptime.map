@@ -1,0 +1,42 @@
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+*default*        0x0000000000000000 0xffffffffffffffff
+
+Linker script and memory map
+
+LOAD uptime.o
+                0x0000000020000020                . = 0x20000020
+
+.text           0x0000000020000020       0xdc
+ *(.text)
+ .text          0x0000000020000020       0xdc uptime.o
+                0x0000000020000020                uptime_start
+                0x00000000200000db                syscall
+
+.rodata         0x00000000200000fc        0x8
+ *(.strings)
+ *(.rodata)
+ .rodata        0x00000000200000fc        0x8 uptime.o
+ *(.rodata.*)
+
+.eh_frame       0x0000000020000104       0x58
+ .eh_frame      0x0000000020000104       0x58 uptime.o
+
+.data           0x000000002000015c        0x0
+ *(.data)
+ .data          0x000000002000015c        0x0 uptime.o
+
+.bss            0x000000002000015c        0x4
+ *(.bss)
+ .bss           0x000000002000015c        0x4 uptime.o
+OUTPUT(bin/uptime binary)
+
+.comment        0x0000000000000000       0x1e
+ .comment       0x0000000000000000       0x1e uptime.o
+
+.note.GNU-stack
+                0x0000000000000000        0x0
+ .note.GNU-stack
+                0x0000000000000000        0x0 uptime.o
