@@ -243,7 +243,7 @@ gdt:
 	.quad	0x00cf92000000ffff	/* 4GB(rw-:Data) */
 
 msg_welcome:
-	.ascii	"Welcome to OS5! Hello!!!!\r\n"
+	.ascii	"Welcome to OS5!\r\n"
 	.byte	0
 msg_now_loading:
 	.ascii	"Now Loading ... "

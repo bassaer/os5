@@ -1,10 +1,12 @@
 #include <io_port.h>
 #include <kernel.h>
+#include <date.h>
 
 #define MAX_LINE_SIZE	512
 
 enum {
 	ECHO,
+	DATE,
 	READB,
 	READW,
 	READL,
@@ -14,7 +16,7 @@ enum {
 	WRITEL,
 	IOWRITEB,
 	TEST,
-	COMMAND_NUM
+	COMMAND_NUM,
 } _COMMAND_SET;
 
 static void shell_main(void);
@@ -162,6 +164,25 @@ static int command_echo(char *args)
 	return 0;
 }
 
+static int command_date(char *args)
+{
+	//時間を表示する
+
+	char *date = "";
+
+	shell_put_str(get_cur_time(date));
+	//command_echo("foobar");
+	return 0;
+}
+
+char get_cur_time(char *date)
+{
+
+  date = "foobarr\r\n";
+
+  return date;
+}
+
 static int command_readb(char *args)
 {
 	char first[128], other[128];
@@ -284,6 +305,10 @@ static unsigned char get_command_id(const char *command)
 		return ECHO;
 	}
 
+	if (!str_compare(command, "date")) {
+		return DATE;
+	}
+
 	if (!str_compare(command, "readb")) {
 		return READB;
 	}
@@ -340,6 +365,9 @@ static void shell_main(void)
 		switch (command_id) {
 		case ECHO:
 			command_echo(args);
+			break;
+		case DATE:
+			command_date(args);
 			break;
 		case READB:
 			command_readb(args);
